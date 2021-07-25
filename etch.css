@@ -1,0 +1,54 @@
+
+
+#gridContainer {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    display: grid;
+    grid-template-columns: repeat(16, 1fr);
+    grid-template-rows: repeat(16, 1fr);
+    width: 35vw;
+    height: 35vw;
+    border: thick solid black;
+}
+
+.gridUnit {
+    background-color: rgb(255, 255, 255);
+}
+
+
+#topbar {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    justify-content: space-evenly;
+    height: 25px;
+    width: 200px;
+    position: absolute;
+    top: 5%;
+    left: 50%;
+    transform: translateX(-50%);
+}
+
+#sidebar{
+    display: flex;
+    flex-direction: column;
+    justify-content: space-evenly;
+    align-items: ;
+    position: absolute;
+    top: 50%;
+    left:11%;
+    transform: translateY(-50%);
+    width: 100px;
+    height: 35vw;
+    margin: auto;
+}
+
+#randColorBtn {
+    justify-self: flex-start;
+}
+
+#shadingBtn {
+    justify-self: center:
+}
