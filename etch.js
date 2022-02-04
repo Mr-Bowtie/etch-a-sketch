@@ -50,6 +50,7 @@ function rebuildGrid() {
 function colorCell(cell) {
     if (colorChoice === "default") {
         cell.style.backgroundColor = "black";
+        cell.style.opacity = 1;
     }
     else if (colorChoice === "randColorBtn") {
         cell.style.backgroundColor = randomizedColor();
