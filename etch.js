@@ -32,7 +32,10 @@ function toggleButton(e) {
 }
 
 function clearGrid() {
-    document.querySelectorAll(".gridUnit").forEach(cell => cell.style.backgroundColor = "");
+    document.querySelectorAll(".gridUnit").forEach(cell => {
+    cell.style.backgroundColor = "";
+    cell.style.opacity = null;
+    });
 
 }
 
