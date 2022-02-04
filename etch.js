@@ -1,7 +1,11 @@
 const gridDiv = document.getElementById("gridContainer");
 const resize = document.getElementById("resetBtn");
 const clear = document.getElementById("clearBtn");
+const body = document.querySelector("body");
+
 let colorChoice = "default";
+let mousePosition = -1;
+let mouseDown = false;
 
 
 function layoutGrid(size) {
@@ -11,9 +15,16 @@ function layoutGrid(size) {
     for (let i = 0; i !== (size ** 2); i++) {
         var div = document.createElement("DIV");
         div.className = "gridUnit";
+        div.id = `${i}`;
+        div.setAttribute("draggable", "false");
         gridDiv.appendChild(div);
     }
-    document.querySelectorAll(".gridUnit").forEach(cell => cell.addEventListener("mouseover", colorChange));
+    document.querySelectorAll(".gridUnit").forEach(cell => cell.addEventListener("mouseover", updateMousePosition));
+}
+
+function updateMousePosition() { 
+    mousePosition = this.id;
+    console.log(`${mousePosition}`)
 }
 
 function toggleButton(e) {
@@ -22,23 +33,26 @@ function toggleButton(e) {
 
 function clearGrid() {
     document.querySelectorAll(".gridUnit").forEach(cell => cell.style.backgroundColor = "");
-    console.log("click");
+
 }
 
-function getGridSize() {
+function rebuildGrid() {
+    while (gridDiv.firstChild){
+        gridDiv.removeChild(gridDiv.firstChild);
+    }
     let gridSize = prompt("How many squares per side would you like this grid to be? (Max 100)");
     layoutGrid(gridSize);
 }
 
-function colorChange() {
+function colorCell(cell) {
     if (colorChoice === "default") {
-        this.style.backgroundColor = "darkgrey";
+        cell.style.backgroundColor = "black";
     }
     else if (colorChoice === "randColorBtn") {
-        this.style.backgroundColor = randomizedColor();
+        cell.style.backgroundColor = randomizedColor();
     }
     else if (colorChoice === "shadingBtn") {
-        darken(this);
+        darken(cell);
     }
 }
 
@@ -63,8 +77,34 @@ function darken(cell) {
     }
 }
 
-resize.addEventListener("click", getGridSize);
+function mouseDownHandler() {
+    if (mousePosition >= 0) {
+        colorCell(document.getElementById(`${mousePosition}`));
+    }
+    mouseDown = true;
+}
+
+function mouseOverHandler() {
+   if (mouseDown == true && mousePosition >= 0) {
+        colorCell(document.getElementById(`${mousePosition}`));
+   }
+}
+
+function mouseUpHandler() {
+    mouseDown = false; 
+}
+
+function mouseLeaveHandler() {
+    mousePosition = -1;
+}
+
+body.addEventListener("mousedown", mouseDownHandler);
+gridDiv.addEventListener("mouseover", mouseOverHandler);
+body.addEventListener("mouseup", mouseUpHandler);
+body.addEventListener("dragover", mouseOverHandler);
+gridDiv.addEventListener("mouseleave", mouseLeaveHandler);
+resize.addEventListener("click", rebuildGrid);
 clear.addEventListener("click", clearGrid);
 document.querySelectorAll(".colorOption").forEach(button => button.addEventListener("click", toggleButton));
 
-getGridSize();
+layoutGrid(10);
